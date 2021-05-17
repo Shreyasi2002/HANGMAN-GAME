@@ -1,7 +1,3 @@
-# Problem Set 2, hangman.py
-# Team: 3 
-# Members : Shreyasi Mandal, Anushka Panda, Lakshmi Pravallika
-
 
 # Hangman Game
 # -----------------------------------
