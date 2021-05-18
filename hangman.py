@@ -1,9 +1,9 @@
-
 # Hangman Game
 # -----------------------------------
-
+import pyttsx3
 import random
 import string
+from playsound import playsound
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -187,7 +187,7 @@ def hangman(secret_word):
             print("-----------------")
             print("Congratulations, you won!")
             print("Your total score for this game is: ",((guesses_left)*unique))
-            break;
+            break
 
     if (guesses_left)==0:
         print("-----------------")
@@ -290,60 +290,122 @@ def hangman_with_hints(secret_word):
     
     Follows the other limitations detailed in the problem write-up.
     '''
+    engine = pyttsx3.init()
+    engine.say("Welcome to the game Hangman! ")
+    engine.runAndWait()
+    engine.say("I am thinking of a word that is "+str(len(secret_word))+" letters long.")
+    engine.runAndWait()
+    engine.say("You have 3 warnings left.")
+    engine.runAndWait()
+    engine.say("If you press @, I can make you laugh!")
+    engine.runAndWait()
+    engine.say("... Wanna try?")
+    engine.runAndWait()
+    
     print("Welcome to the game Hangman!")
     print("I am thinking of a word that is ",len(secret_word)," letters long.")
     warnings_left=3
     print("You have 3 warnings left.")
     letter=list()
+    print("You can press @ for some entertainment 🎊")
 
     unique=len(set(secret_word))
     guesses_left=6
     while guesses_left>0:
         print("-----------------")
+        engine.say("You have "+str(guesses_left)+" guesses left")
+        engine.runAndWait()
+        engine.say("Please guess a letter: ")
+        engine.runAndWait()
         print("You have ",(guesses_left)," guesses left")
         print("Available letters: "+ get_available_letters(letter))
         print("Please guess a letter: ")
         st=input()
-        
 
         if st in letter:
             if warnings_left>0:
+                engine.say("Oops! You've already guessed that letter. ")
+                engine.runAndWait()
+                playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
+                engine.say("You have "+str(warnings_left-1)+" warnings left: ")
+                engine.runAndWait()
                 print("Oops! You've already guessed that letter. You have ",(warnings_left-1)," warnings left: "+get_guessed_word(secret_word, letter))
                 warnings_left-=1
             else:
+                engine.say("Oops! You've already guessed that letter.")
+                engine.runAndWait()
+                playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
+                engine.say(" You have no warnings left so you lose one guess: ")
+                engine.runAndWait()
                 print("Oops! You've already guessed that letter. You have no warnings left so you lose one guess: "+get_guessed_word(secret_word, letter))
                 guesses_left-=1
+                
         else:        
            if str.isalpha(st):
                a=str.lower(st)
                letter.append(a)
                if a in secret_word:
+                   engine.say("Good guess  ")
+                   engine.runAndWait()
+                   playsound("1_person_cheering-Jett_Rifkin-1851518140.mp3")
                    print("Good guess: "+get_guessed_word(secret_word, letter))
                 
                else:
+                   engine.say("Oops! That letter is not in my word: ")
+                   engine.runAndWait()
+                   playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
                    print("Oops! That letter is not in my word: "+get_guessed_word(secret_word, letter))
                    if (a=='a')|(a=='e')|(a=='i')|(a=='o')|(a=='u'):
                        guesses_left-=2
                    else:
                        guesses_left-=1
+                       
+
            elif st=='*':
+               engine.say("Okay I am giving you little hints ")
+               engine.runAndWait()
                show_possible_matches(get_guessed_word(secret_word, letter))
+
+           elif st == '@':
+               playsound("Maniacal Witches Laugh-SoundBible.com-262127569.mp3")
+               playsound("hahaha-Peter_De_Lang-1639076107.mp3")
+            
+               
            else:
                if warnings_left>0:
+                   engine.say("Oops! That is not a valid letter. ")
+                   engine.runAndWait()
+                   playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
+                   engine.say("You have "+ str(warnings_left-1) +" warnings left: ")
+                   engine.runAndWait()
                    print("Oops! That is not a valid letter. You have ",(warnings_left-1)," warnings left: "+get_guessed_word(secret_word, letter))
                    warnings_left-=1
                else:
+                   engine.say("Oops! That is not a valid letter. ")
+                   engine.runAndWait()
+                   playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
+                   engine.say("You have no warnings left so you lose one guess: ")
+                   engine.runAndWait()
                    print("Oops! That is not a valid letter. You have no warnings left so you lose one guess: "+get_guessed_word(secret_word, letter))
                    guesses_left-=1
-
         
         if is_word_guessed(secret_word, letter):
+            engine.say("Congratulations, you won! Your total score for this game is: "+ str((guesses_left)*unique))
+            engine.runAndWait()
             print("-----------------")
             print("Congratulations, you won!")
             print("Your total score for this game is: ",((guesses_left)*unique))
-            break;
+            playsound("SMALL_CROWD_APPLAUSE-Yannick_Lemieux-1268806408.mp3")
+            break
 
     if (guesses_left)==0:
+        engine.say("Sorry, you ran out of guesses. ")
+        engine.runAndWait()
+        playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
+        engine.say("The word was "+secret_word)
+        engine.runAndWait()
+        engine.say("Better luck next time ;)")
+        engine.runAndWait()
         print("-----------------")
         print("Sorry, you ran out of guesses. The word was "+secret_word)
 
@@ -364,7 +426,7 @@ if __name__ == "__main__":
     #secret_word = choose_word(wordlist)
     #hangman(secret_word)
 
-###############
+    ###############
     
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines.     
