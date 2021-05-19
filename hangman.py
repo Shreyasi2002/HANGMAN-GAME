@@ -290,7 +290,6 @@ def hangman_with_hints(secret_word):
     
     Follows the other limitations detailed in the problem write-up.
     '''
-    engine = pyttsx3.init()
     engine.say("Welcome to the game Hangman! ")
     engine.runAndWait()
     engine.say("I am thinking of a word that is "+str(len(secret_word))+" letters long.")
@@ -427,8 +426,26 @@ if __name__ == "__main__":
     #hangman(secret_word)
 
     ###############
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[1].id)
+    engine.setProperty("rate", 160)
     
     # To test part 3 re-comment out the above lines and 
     # uncomment the following two lines.     
     secret_word = choose_word(wordlist)
     hangman_with_hints(secret_word)
+    engine.say("Do you want to play again? Press y if yes and n if no")
+    engine.runAndWait()
+    repeat = input("Do you want to play again? (Y/n): ")
+    while repeat == "Y" or repeat == "y":
+        secret_word = choose_word(wordlist)
+        hangman_with_hints(secret_word)
+        engine.say("Do you want to play again? Press y if yes and n if no")
+        engine.runAndWait()
+        repeat = input("Do you want to play again? (Y/n): ")
+
+    if repeat == 'n' or repeat == "N":
+        engine.say("Ok, then see you soon")
+        engine.runAndWait()
+        print("Ok, then see you soon ")
