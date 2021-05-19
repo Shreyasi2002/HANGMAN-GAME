@@ -397,13 +397,12 @@ def hangman_with_hints(secret_word):
             playsound("SMALL_CROWD_APPLAUSE-Yannick_Lemieux-1268806408.mp3")
             break
 
-    if (guesses_left)==0:
+    if (guesses_left)<=0:
         engine.say("Sorry, you ran out of guesses. ")
         engine.runAndWait()
-        playsound("Sad_Trombone-Joe_Lamb-665429450.mp3")
         engine.say("The word was "+secret_word)
         engine.runAndWait()
-        engine.say("Better luck next time ;)")
+        engine.say("Better luck next time !")
         engine.runAndWait()
         print("-----------------")
         print("Sorry, you ran out of guesses. The word was "+secret_word)
@@ -435,12 +434,16 @@ if __name__ == "__main__":
     # uncomment the following two lines.     
     secret_word = choose_word(wordlist)
     hangman_with_hints(secret_word)
+    engine.say("                                                                                ")
+    engine.runAndWait()
     engine.say("Do you want to play again? Press y if yes and n if no")
     engine.runAndWait()
     repeat = input("Do you want to play again? (Y/n): ")
     while repeat == "Y" or repeat == "y":
         secret_word = choose_word(wordlist)
         hangman_with_hints(secret_word)
+        engine.say("                                                                                ")
+        engine.runAndWait()
         engine.say("Do you want to play again? Press y if yes and n if no")
         engine.runAndWait()
         repeat = input("Do you want to play again? (Y/n): ")
