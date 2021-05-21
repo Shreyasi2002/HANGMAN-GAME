@@ -14,7 +14,7 @@ def main():
             turn_right()  # turn 90° right
             move()  # move forward one unit
 
-        if i == 11000:
+        if i == 10900:
             break
 
 
