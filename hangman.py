@@ -4,6 +4,7 @@ import pyttsx3
 import random
 import string
 from playsound import playsound
+from PIL import Image
 
 WORDLIST_FILENAME = "words.txt"
 
@@ -308,9 +309,11 @@ def hangman_with_hints(secret_word):
     print("You have 3 warnings left.")
     letter=list()
     print("You can press @ for some entertainment 🎊")
-
+    
     unique=len(set(secret_word))
     guesses_left=6
+    img = Image.open(display_hangman(guesses_left))
+    img.show()
     while guesses_left>0:
         print("-----------------")
         engine.say("You have "+str(guesses_left)+" guesses left")
@@ -388,6 +391,8 @@ def hangman_with_hints(secret_word):
                    engine.runAndWait()
                    print("Oops! That is not a valid letter. You have no warnings left so you lose one guess: "+get_guessed_word(secret_word, letter))
                    guesses_left-=1
+        img = Image.open(display_hangman(guesses_left))
+        img.show()
         
         if is_word_guessed(secret_word, letter):
             engine.say("Congratulations, you won! Your total score for this game is: "+ str((guesses_left)*unique))
@@ -409,6 +414,22 @@ def hangman_with_hints(secret_word):
         print("Sorry, you ran out of guesses. The word was "+secret_word)
 
 
+def display_hangman(tries):
+    stages = [  "final state.jpg"
+                ,
+                "head, torso, arms and one leg.jpg"
+                ,
+                "head, torso and both arms.jpg"
+                ,
+                "head, torso and one arm.jpg"
+                ,
+                "head and torso.jpg"
+                ,
+                "head.jpg"
+                ,
+                "initial empty state.jpg"
+    ]
+    return stages[tries]
 
 # When you've completed your hangman_with_hint function, comment the two similar
 # lines above that were used to run the hangman function, and then uncomment
