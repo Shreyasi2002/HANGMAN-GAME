@@ -3,7 +3,8 @@ from karel.stanfordkarel import *
 
 def main():
     i = 0
-    while True:  # repeat
+    while True: 
+        # repeat
         i = i + 1
         if beepers_present():  # At a black square
             pick_beeper()  # flip the color of the square
