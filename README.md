@@ -1,4 +1,4 @@
-# HANGMAN-GAME
+# HANGMAN GAME
 
 Let's play Hangman... :)
 
